@@ -1,0 +1,9 @@
+{
+  "_comment": "Equity sector rotation: Tech, Energy, Healthcare ETF analysts",
+  "manager": { "name": "Otto", "profile": "../../otto.xml", "type": "manager" },
+  "analysts": [
+    { "name": "Tech",   "profile": "tech-analyst.xml",   "type": "analyst", "asset": "XLK", "assetLabel": "Technology Sector ETF" },
+    { "name": "Energy", "profile": "energy-analyst.xml", "type": "analyst", "asset": "XLE", "assetLabel": "Energy Sector ETF" },
+    { "name": "Health", "profile": "health-analyst.xml", "type": "analyst", "asset": "XLV", "assetLabel": "Healthcare Sector ETF" }
+  ]
+}

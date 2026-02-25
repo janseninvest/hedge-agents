@@ -53,7 +53,7 @@ function totalReturn(dailyReturns) {
 function sharpeRatio(dailyReturns, riskFreeRate = 0.02) {
   const arr = annualisedReturn(dailyReturns);
   const vol = annualisedVol(dailyReturns);
-  if (vol === 0) return 0;
+  if (vol < 1e-10) return 0; // Guard against floating-point near-zero vol
   return (arr - riskFreeRate) / vol;
 }
 
@@ -228,10 +228,11 @@ function optimizePortfolio(expectedReturns, covMatrix, dailyReturnSeries, params
  * Higher = more diversified.
  */
 function entropy(weights) {
-  return -weights.reduce((s, w) => {
+  const result = -weights.reduce((s, w) => {
     if (w <= 0) return s;
     return s + w * Math.log(w);
   }, 0);
+  return result === 0 ? 0 : result; // Avoid -0 (which fails Object.is comparison)
 }
 
 /**

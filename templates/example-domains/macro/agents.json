@@ -1,0 +1,9 @@
+{
+  "_comment": "Macro domain: Rates, Gold, FX analysts + Chief Risk Officer",
+  "manager": { "name": "Chief", "profile": "cro.xml", "type": "manager" },
+  "analysts": [
+    { "name": "Rates",  "profile": "rates-analyst.xml",  "type": "analyst", "asset": "^TNX",    "assetLabel": "10Y Treasury Yield" },
+    { "name": "Gold",   "profile": "commod-analyst.xml", "type": "analyst", "asset": "GC=F",    "assetLabel": "Gold Futures" },
+    { "name": "Emily",  "profile": "../../emily.xml",    "type": "analyst", "asset": "EURUSD=X","assetLabel": "EUR/USD Forex" }
+  ]
+}

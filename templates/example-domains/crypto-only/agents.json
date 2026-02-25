@@ -1,0 +1,9 @@
+{
+  "_comment": "Crypto-only domain: 3 crypto analysts (BTC, ETH, SOL) + manager",
+  "manager": { "name": "Otto", "profile": "../../otto.xml", "type": "manager" },
+  "analysts": [
+    { "name": "Dave",   "profile": "../../dave.xml", "type": "analyst", "asset": "BTC-USD", "assetLabel": "Bitcoin" },
+    { "name": "Ether",  "profile": "eth-analyst.xml","type": "analyst", "asset": "ETH-USD", "assetLabel": "Ethereum" },
+    { "name": "Solly",  "profile": "sol-analyst.xml","type": "analyst", "asset": "SOL-USD", "assetLabel": "Solana" }
+  ]
+}

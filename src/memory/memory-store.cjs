@@ -146,8 +146,8 @@ class MemoryStore {
    */
   getMemories(agentName, memoryType = null, limit = 1000) {
     const rows = memoryType
-      ? this._db.prepare('SELECT * FROM memories WHERE agent_name=? AND memory_type=? ORDER BY created_at DESC LIMIT ?').all(agentName, memoryType, limit)
-      : this._db.prepare('SELECT * FROM memories WHERE agent_name=? ORDER BY created_at DESC LIMIT ?').all(agentName, limit);
+      ? this._db.prepare('SELECT * FROM memories WHERE agent_name=? AND memory_type=? ORDER BY created_at DESC, id DESC LIMIT ?').all(agentName, memoryType, limit)
+      : this._db.prepare('SELECT * FROM memories WHERE agent_name=? ORDER BY created_at DESC, id DESC LIMIT ?').all(agentName, limit);
 
     return rows.map(r => ({
       ...r,
@@ -214,9 +214,10 @@ class MemoryStore {
    * Purge old M_MI memories beyond retention window.
    */
   purgeOldMemories(retentionDays = 365) {
-    const cutoff = Math.floor(Date.now() / 1000) - retentionDays * 86400;
+    // Add 1s buffer so records inserted "now" are included when retentionDays=0
+    const cutoff = Math.floor(Date.now() / 1000) - retentionDays * 86400 + 1;
     const result = this._db.prepare(
-      "DELETE FROM memories WHERE memory_type='M_MI' AND created_at < ?"
+      "DELETE FROM memories WHERE memory_type='M_MI' AND created_at <= ?"
     ).run(cutoff);
     if (result.changes > 0) {
       logger.info(MOD, `Purged ${result.changes} old M_MI memories`);
@@ -231,7 +232,7 @@ class MemoryStore {
   }
 
   getPortfolioHistory(limit = 100) {
-    return this._db.prepare('SELECT * FROM portfolio_state ORDER BY timestamp DESC LIMIT ?').all(limit)
+    return this._db.prepare('SELECT * FROM portfolio_state ORDER BY timestamp DESC, id DESC LIMIT ?').all(limit)
       .map(r => ({ ...r, state: JSON.parse(r.state_json) }));
   }
 
